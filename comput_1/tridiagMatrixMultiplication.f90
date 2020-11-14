@@ -10,7 +10,7 @@ open(11, file='data1.dat')
   allocate(A(n,3), B(n,3), C(n,5))   ! тут изменение, чтобы не хранить нули
 
   do i=1,n
-    read(11,*) A(i,1:n)
+    read(11,*) A(i,:)
   enddo
 close(11)
 
@@ -18,7 +18,7 @@ close(11)
 open(12, file='data2.dat')
   read(12, '(2x, i10)') n_in_b
   do i=1,n
-      read(12,*) B(i,1:n)
+      read(12,*) B(i,:)
   enddo
 close(12)
 

@@ -95,8 +95,18 @@ do j = 1, numPOINTS100
   enddo
 enddo
 
-do i=1, numPOINTS100
-  write(*, *) result_COORDS(i, 1), result_COORDS(i, 2)
-enddo
+select case(key)
+  case('uniform')
+    open(22, file='res_uniform.dat')
+    do i=1, numPOINTS100
+      write(22,*)  result_COORDS(i, 1), result_COORDS(i, 2)
+    enddo
+
+  case('chebyshev')
+    open(33, file='res_chebyshev.dat')
+      do i=1, numPOINTS100
+        write(33,*)  result_COORDS(i, 1), result_COORDS(i, 2)
+      enddo
+endselect
 
 end program interpolationLagrange
