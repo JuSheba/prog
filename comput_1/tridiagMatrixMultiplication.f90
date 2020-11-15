@@ -8,24 +8,34 @@ open(11, file='data1.dat')
   read(11, '(2x, i10)') n
 
   allocate(A(n,3), B(n,3), C(n,5))   ! тут изменение, чтобы не хранить нули
-
-  do i=1,n
+  read(11,*) A(1,1:2)
+  do i=2, n-1
     read(11,*) A(i,:)
   enddo
+  read(11,*) A(n,1:2)
 close(11)
 
 
 open(12, file='data2.dat')
   read(12, '(2x, i10)') n_in_b
-  do i=1,n
+  read(12,*) B(1,1:2)
+  do i = 2, n-1
       read(12,*) B(i,:)
   enddo
+  read(12,*) B(n,1:2)
 close(12)
 
 call multiplication_for_tridiag(A, B, C, n)
 
 open(13, file='result.dat')
-  write(13,*) C
+  write(13,*)'# ', n
+  write(13,*) C(1,1:3)
+  write(13,*) C(2,1:4)
+  do i = 3, n-2
+    write(13,*) C(i,:)
+  enddo
+  write(13,*) C(n-1,1:4)
+  write(13,*) C(n,1:3)
 close(13)
 
 end program tridiagmatrixMultiplication
