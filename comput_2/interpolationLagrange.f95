@@ -57,7 +57,7 @@ case('uniform')
 case('chebyshev')
   pi = 4.d0*atan(1.d0)
   write(*,*) 'Calculation X coordinates of a chebyshev grid..'
-  do i=1,numPOINTS
+  do i=0,numPOINTS-1
         COORDS(i,1) = 0.5*(pointR + pointL) + 0.5*(pointR - pointL)*&
         cos(pi*(2*i + 1)/(2.d0*numINTERV + 2))
         write(*,*) COORDS(i, 1)
