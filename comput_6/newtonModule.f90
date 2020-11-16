@@ -45,7 +45,7 @@ module newtonModule
     n = size(x0)
     i = 0
 
-    x1 = x0
+    x1 = x0*2d0 + 1
 
     do while ((maxval(abs(x1 - x0)) >= eps) .and. (i < max))
       x0 = x1
