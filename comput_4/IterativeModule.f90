@@ -69,12 +69,12 @@ end subroutine Seidel
 !_______________________________________________________________________
 subroutine SOR(n, A, B, C, res, eps)
 
-  integer(8)  :: n, i, j, score, scoreMax, max
-  real(8), dimension(:,:), allocatable :: A, C
-  real(8), dimension(:), allocatable   :: res, B
+  integer(8)  :: n, i, j, score, scoreMax,  maxima(1)
+  real(8) :: A(n,n), C(n,n)
+  real(8) :: res(n), B(n)
     real(8), dimension(1:size(B),1:size(B)) :: P
-  real(8), dimension(1:size(B))        :: res0, Q, Q0, maxima
-  real(8) :: eps
+  real(8), dimension(1:size(B))        :: res0, Q, Q0
+  real(8) :: eps, max
 
   write(*,*) 'You chose SOR method.'
   write(*,*) 'Calculation solution vector..'
@@ -90,19 +90,14 @@ subroutine SOR(n, A, B, C, res, eps)
   score = 0
   scoreMax = 100
 
+  maxima = maxloc(abs(Q))
+  max = Q(maxima(1))
 
-  do i = 1,n
-    maxima(i) = abs(Q(i))
-  end do
-  max = sum(maxloc(maxima))         ! мне очень стыдно за весь этот костыль
-
-
-  do while (abs(Q(max))>eps .and. score<scoreMax)
-    Q0 = Q
-    do concurrent(i=1:n)
-      Q(i) = Q0(i) + P(i,max)*Q0(max)
-    end do
-    score = score + 1
+  do while (abs(max) >= eps)
+    res(maxima(1)) = res(maxima(1)) + Q(maxima(1))
+    forall(i = 1:n)  Q(i) = Q(i) + P(i,maxima(1))*max
+    maxima = maxloc(abs(Q))
+    max = Q(maxima(1))
   end do
 
 end subroutine SOR
