@@ -36,7 +36,7 @@ module newtonModule
   !______________________________________________________________________________________
 
   function mNewton(func, x0, max)
-    integer :: i, n, max
+    integer(4) :: i, n, max
     real(8) :: x0(:), mNewton(size(x0)), eps
     real(8), allocatable, dimension(:)   :: f_xj_0, xj_0, xj_1
     real(8), allocatable, dimension(:,:) :: C, A
@@ -61,7 +61,6 @@ module newtonModule
     A(i, 1:n) = C(i, :)
     A(i, n+1) = -f_xj_0 + matmul(C,xj_0)
     call GaussPivot(n, eps, A, xj_1)
-    xj_1 = GaussPivot(n, eps, A, xj_1)
     deallocate(A)
 
     do while ((maxval(abs(xj_1 - xj_0)) >= eps).and.(i < max))
@@ -71,7 +70,6 @@ module newtonModule
       A(i, 1:n) = C(i, :)
       A(i, n+1) = -f_xj_0 + matmul(C,xj_0)
       call GaussPivot(n, eps, A, xj_1)
-      xj_1 = GaussPivot(n, eps, A, xj_1)
       i = i + 1
     end do
     mNewton = xj_1
