@@ -81,9 +81,9 @@ subroutine SOR(n, A, B, C, res, eps)
 
   res = 0
 
-  P(i,j) = -A(i,j)/A(i,i)
+  forall(i = 1:n, j = 1:n) P(i,j) = -A(i,j)/A(i,i)
 
-  Q(i) = B(i)/A(i,i)
+  forall(i = 1:n) Q(i) = B(i)/A(i,i)
 
   Q0 = Q
 
@@ -104,10 +104,6 @@ subroutine SOR(n, A, B, C, res, eps)
     end do
     score = score + 1
   end do
-
-
-
-
 
 end subroutine SOR
 !_______________________________________________________________________
