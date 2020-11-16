@@ -1,4 +1,5 @@
 program newton
+  use functionModule
   use newtonModule
   implicit none
 
