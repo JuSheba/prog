@@ -4,13 +4,13 @@ program newton
   implicit none
 
   real(8),allocatable,dimension(:) :: x0, x
-  integer :: i, max, n
+  integer(8) :: i, max, n
 
   n = 150 ! size x
   max = 10e4
 
   allocate(x(n), x0(n))
-  forall(i = 1:n) x0(i) = 0.5d0
+  forall(i = 1:n) x0(i) = 1d0
 
   x = mNewton(func, x0, max)
   write(*,*)  sqrt(dot_product(func(x), func(x)))
