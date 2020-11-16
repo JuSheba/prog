@@ -23,9 +23,7 @@ subroutine Jacobi(n, A, B, C, res,eps)
 
   Z = matmul(invertD,(D - A))
 
-  do i = 1,n
-    G(i) = invertD(i,i)*B(i)
-  end do
+  G = matmul(invertD, B)
 
   score = 0
   scoreMax = 100
