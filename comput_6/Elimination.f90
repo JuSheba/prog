@@ -4,15 +4,18 @@ contains
 !_______________________________________________________________________
 ! 1.GAUSS ELIMINATION
 !_______________________________________________________________________
-subroutine Gauss(n,eps,C,res)
+subroutine Gauss(n, eps, A, B, res)
 
   integer(8)  :: n, i, j
-  real(8), dimension(:,:) :: C
-  real(8), dimension(:)   :: res
+  real(8), dimension(:,:) :: A, C(n, n+1)
+  real(8), dimension(:)   :: res, B
   real(8) :: eps, s
 
-  write(*,*) 'You chose Gauss elimination.'
-  write(*,*) 'Calculation solution vector..'
+  !write(*,*) 'You chose Gauss elimination.'
+  !write(*,*) 'Calculation solution vector..'
+
+  C(:,1:n) = A
+  C(:,n+1) = B
 
   do j = 1,n
     if(abs(C(j,j))<eps) then

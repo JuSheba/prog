@@ -13,6 +13,7 @@ program newton
   forall(i = 1:n) x0(i) = 0.5
 
   x = mNewton(func, x0, max)
+  
   write(*,*)  sqrt(dot_product(func(x), func(x)))
   open(12, file='result.dat')
     do i = 1, n

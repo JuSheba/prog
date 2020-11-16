@@ -3,7 +3,7 @@ module functionModule
   contains
 
     function func(X)
-      integer :: i,n
+      integer :: i, n
       real(8), dimension(:) :: X
       real(8), dimension(size(X)) :: func
         n = size(X)

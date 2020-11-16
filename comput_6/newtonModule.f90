@@ -7,39 +7,32 @@ module newtonModule
 
   function der(func, x0, n)
     integer(8) :: i, j, n
-    real(8) :: x0(n), f_x0(n), f_x1(n), f_x2(n), der(n,n), x1(n), x2(n), t
+    real(8) :: x0(n), x1(n), der(n,n)
+    real(8) :: t
     interface
       function func(X)
-        integer :: i,n
+        integer :: i, n
         real(8), dimension(:) :: X
         real(8), dimension(size(X)) :: func
       end function func
     end interface
 
     x1 = x0
-    x2 = x0
-    t  = 0.00001d0
+    t  = 1e-5
 
-    do i = 1, n
+    do i = 1, size(x0)
       x1(i) = x0(i) + t
-      x2(i) = x0(i) + 2d0*t
-      f_x0 = func(x0)
-      f_x1 = func(x1)
-      f_x2 = func(x2)
-      do j = 1, n
-        der(j,i) = -1.5d0 * f_x0(j)/t + &
-                        2d0   * f_x1(j)/t - &
-                        0.5d0 * f_x2(j)/t
-      end do
+      der(:,i) = func(x1)/t - func(x0)/t
     end do
+
   end function der
   !______________________________________________________________________________________
 
   function mNewton(func, x0, max)
     integer(8) :: i, n, max
-    real(8) :: x0(:), mNewton(size(x0)), eps
-    real(8), allocatable, dimension(:)   :: f_xj_0, xj_0, xj_1
-    real(8), allocatable, dimension(:,:) :: C, A
+    real(8) :: x0(:), x1(size(x0)), mNewton(size(x0))
+    real(8) :: eps
+
     interface
       function func(X)
         integer(8) :: i,n
@@ -50,29 +43,17 @@ module newtonModule
 
     eps = epsilon(1d0)
     n = size(x0)
-    i = 1
+    i = 0
 
-    allocate(C(n,n), A(n,n+1))
-    allocate(f_xj_0(n), xj_0(n), xj_1(n))
+    x1 = x0
 
-    xj_0 = x0
-    f_xj_0 = func(xj_0)
-    C = der(func, xj_0, n)
-    A(i, 1:n) = C(i, :)
-    A(:, n+1) = -f_xj_0 + matmul(C,xj_0)
-    call Gauss(n, eps, A, xj_1)
-    deallocate(A)
-
-    do while ((maxval(abs(xj_1 - xj_0)) >= eps).and.(i < max))
-      xj_0 = xj_1
-      f_xj_0 = func(xj_0)
-      C = der(func, xj_0, n)
-      A(i, 1:n) = C(i, :)
-      A(:, n+1) = -f_xj_0 + matmul(C,xj_0)
-      call Gauss(n, eps, A, xj_1)
+    do while ((maxval(abs(x1 - x0)) >= eps) .and. (i < max))
+      x0 = x1
+      call Gauss(n, eps, der(func, x0, n), -func(x0), x1)
+      x1 = x0 + x1
       i = i + 1
     end do
-    mNewton = xj_1
+    mNewton = x1
   end function mNewton
 
 end module newtonModule
