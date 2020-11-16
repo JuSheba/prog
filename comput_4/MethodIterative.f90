@@ -11,7 +11,7 @@ implicit none
 !  C - augmented system matrix
 !  R - residual
 !_______________________________________________________________________
-integer(8) :: n, i, j, bar
+integer(8) :: n, i, j, bar, bar2
 real(8)    :: eps
 real(8), dimension(:,:), allocatable :: A, C
 real(8), dimension(:), allocatable   :: B, res, R
@@ -55,16 +55,23 @@ allocate(res(n))
 ! TEST DIAGONALLY DOMINANT MATRIX
 !_______________________________________________________________________
 write(*,*) 'Testing diagonally dominant matrix..'
-
+bar2 = 0
 do i = 1,n
   bar = sum(abs(C(i,:)))
   bar = bar - abs(C(i,i))
   if(abs(C(i,i)) <= bar) then
-    write(*,*) 'This matrix does not have a diagonally dominant. &
-     Program exited.'
-    call exit()
+    bar2 = 1
   end if
+  bar = 0
 end do
+
+if (bar == 1) then
+  write(*,*) 'This matrix does not have a diagonally dominant. &
+   Program exited.'
+  call exit()
+end if
+
+
 
 write(*,*) 'This matrix has a diagonally dominant.'
 
