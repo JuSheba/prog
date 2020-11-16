@@ -7,7 +7,7 @@ module functionModule
       real(8), dimension(:) :: X
       real(8), dimension(size(X)) :: func
         n = size(X)
-        forall(i = 1:n) func(i) = X(i)**2
+        forall(i = 1:n) func(i) = sin(X(i))
     end function func
 
 end module functionModule

@@ -60,14 +60,16 @@ module newtonModule
     C = der(func, xj_0, n)
     A(i, 1:n) = C(i, :)
     A(:, n+1) = -f_xj_0 + matmul(C,xj_0)
-    call GaussPivot(n, eps, A, xj_1)
+    call Gauss(n, eps, A, xj_1)
     deallocate(A)
 
     do while ((maxval(abs(xj_1 - xj_0)) >= eps).and.(i < max))
       xj_0 = xj_1
       f_xj_0 = func(xj_0)
       C = der(func, xj_0, n)
-      call GaussPivot(n, eps, A, xj_1)
+      A(i, 1:n) = C(i, :)
+      A(:, n+1) = -f_xj_0 + matmul(C,xj_0)
+      call Gauss(n, eps, A, xj_1)
       i = i + 1
     end do
     mNewton = xj_1
