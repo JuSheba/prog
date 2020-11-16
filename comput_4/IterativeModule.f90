@@ -25,15 +25,23 @@ subroutine Jacobi(n, A, B, C, res,eps)
 
   G = matmul(invertD, B)
 
-  score = 0
-  scoreMax = 100
   res0 = res
 
-  do while (sqrt(sum((res0-res)**2))>eps .and. score<scoreMax)
+  res = matmul(Z, res0) + G
+  do while (sqrt(dot_product(res0-res, res0-res)) >= eps )
     res0 = res
     res = matmul(Z,res) + G
-    score = score + 1
   end do
+
+  !score = 0
+  !scoreMax = 100
+  !res0 = res
+!
+!  do while (sqrt(sum((res0-res)**2))>eps .and. score<scoreMax)
+!    res0 = res
+!    res = matmul(Z,res) + G
+!    score = score + 1
+!  end do
 
 end subroutine Jacobi
 !_______________________________________________________________________
