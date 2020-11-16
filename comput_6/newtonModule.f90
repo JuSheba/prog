@@ -7,14 +7,12 @@ module newtonModule
 
   function der(func, x0, n)
     integer :: i, j, n
-    real(8) :: x0(n), f_x0(n), f_x1(n), f_x2(n), der(n,n), x1(n), x2(n)
+    real(8) :: x0(n), f_x0(n), f_x1(n), f_x2(n), der(n,n), x1(n), x2(n), t
     interface
       function func(X)
         integer :: i,n
         real(8), dimension(:) :: X
         real(8), dimension(size(X)) :: func
-          n = size(X)
-          forall(i = 1:n) func(i) = X(i)**2
       end function func
     end interface
 
@@ -33,6 +31,7 @@ module newtonModule
                         2d0   * f_x1(j)/t - &
                         0.5d0 * f_x2(j)/t
       end do
+    end do
   end function der
   !______________________________________________________________________________________
 
@@ -41,6 +40,13 @@ module newtonModule
     real(8) :: x0(:), mNewton(size(x0)), eps
     real(8), allocatable, dimension(:)   :: f_xj_0, xj_0, xj_1
     real(8), allocatable, dimension(:,:) :: C, A
+    interface
+      function func(X)
+        integer(4) :: i,n
+        real(8), dimension(:) :: X
+        real(8), dimension(size(X)) :: func
+      end function func
+    end interface
 
     eps = epsilon(1d0)
     n = size(x0)
