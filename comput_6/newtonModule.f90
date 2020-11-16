@@ -1,23 +1,22 @@
 module newtonModule
   use Elimination
+  use functionModule
   implicit none
 !________________________________________________________________________________________
   contains
-      interface
-        function func
-          integer :: i,n
-          real(8), dimension(:) :: X
-          real(8), dimension(size(X)) :: func
-            n = size(X)
-            forall(i = 1:n) func(i) = X(i)**2
-        end function func
-      end interface
-
-  !______________________________________________________________________________________
 
   function der(func, x0, n)
     integer :: i, j, n
     real(8) :: x0(n), f_x0(n), f_x1(n), f_x2(n), der(n,n), x1(n), x2(n)
+    interface
+      function func(X)
+        integer :: i,n
+        real(8), dimension(:) :: X
+        real(8), dimension(size(X)) :: func
+          n = size(X)
+          forall(i = 1:n) func(i) = X(i)**2
+      end function func
+    end interface
 
     x1 = x0
     x2 = x0
@@ -41,28 +40,33 @@ module newtonModule
     integer :: i, n, max
     real(8) :: x0(:), mNewton(size(x0)), eps
     real(8), allocatable, dimension(:)   :: f_xj_0, xj_0, xj_1
-    real(8), allocatable, dimension(:,:) :: C
+    real(8), allocatable, dimension(:,:) :: C, A
 
     eps = epsilon(1d0)
     n = size(x0)
     i = 1
 
-    allocate(C(n,n))
+    allocate(C(n,n), A(n,n+1))
     allocate(f_xj_0(n), xj_0(n), xj_1(n))
 
     xj_0 = x0
     f_xj_0 = func(xj_0)
     C = der(func, xj_0, n)
-    call GaussPivot(n, eps, C, xj_1 )
-    xj_1 =
+    A(i, 1:n) = C(i, :)
+    A(i, n+1) = -f_xj_0 + matmul(C,xj_0)
+    call GaussPivot(n, eps, A, xj_1)
+    xj_1 = GaussPivot(n, eps, A, xj_1)
+    deallocate(A)
 
     do while ((maxval(abs(xj_1 - xj_0)) >= eps).and.(i < max))
       xj_0 = xj_1
       f_xj_0 = func(xj_0)
       C = der(func, xj_0, n)
-      call GaussPivot(n, eps, C, xj_1 )
-      xj_1 =
-      i = i+1
+      A(i, 1:n) = C(i, :)
+      A(i, n+1) = -f_xj_0 + matmul(C,xj_0)
+      call GaussPivot(n, eps, A, xj_1)
+      xj_1 = GaussPivot(n, eps, A, xj_1)
+      i = i + 1
     end do
     mNewton = xj_1
   end function mNewton
