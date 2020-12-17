@@ -9,14 +9,14 @@ module func_mod
     implicit none
     integer, intent(in) :: q, p
     complex :: w
-      w = exp(-2d0 * (4d0 * atan(1d0) * cmplx(0,1) * q/p))
+      w = exp(-2d0 * (4d0 * atan(1d0)) * cmplx(0,1) * q/p)
   end function w_minus
 
   pure function w_plus(q,p) result(w)
     implicit none
     integer, intent(in) :: q, p
     complex :: w
-      w = exp(2d0 * (4d0 * atan(1d0) * cmplx(0,1) * q/p))
+      w = exp(2d0 * (4d0 * atan(1d0)) * cmplx(0,1) * q/p)
   end function w_plus
 
 end module func_mod

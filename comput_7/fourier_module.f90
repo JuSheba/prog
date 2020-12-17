@@ -15,7 +15,9 @@ module fourier_module
         call FFT_DIF(w(0:N/2-1)*(x(0:N/2-1) - x(N/2:N-1)),&
                      y(1:N-1:2), w(0:N-1:2))
       else
-        forall (i = 0:1) y(i) = x(0) + (-1)**i*x(1)
+        do i = 0, 1
+          y(i) = x(0) + (-1)**i*x(1)
+        end do
       end if
 
     end subroutine FFT_DIF

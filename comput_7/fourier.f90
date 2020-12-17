@@ -77,7 +77,7 @@ program DFT
   open(22, file='result.dat')
     write(22,*) "#", N
     do i = 1, N
-      write(22,*) real(x(i)), imag(x(i))
+      write(22,*) real(y(i)), imag(y(i))
     end do
   close(22)
 
