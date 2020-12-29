@@ -7,10 +7,10 @@ module gorner_mod
     ! метод Гoрнера деления мн-н на (x - x0)
       real(8)      :: x0
       integer(8)   :: i
-      real(8)      :: M(0:), gorner(0:size(M)-2)
+      real(8)      :: M(0:), gorner(0:size(M)-1)
 
       gorner(0) = M(0)
-      do i = 1, size(M)-2
+      do i = 1, size(M)-1
         gorner(i) = gorner(i-1)*x0 + M(i)
       end do
       write(*,*) gorner
