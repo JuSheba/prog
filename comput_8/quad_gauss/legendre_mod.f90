@@ -7,7 +7,9 @@ module legendre_mod
     ! Первые два коэф. задаём явно,(ф-ла работает для n > 1), остальные ищем реккурентно.
     implicit none
     integer(8) :: n, i
-    real(8), dimension(0:n)   :: M, poli_1, poli_2
+    real(8), dimension(0:n)     :: M
+    real(8), dimension(0:n-1)   :: poli_1
+    real(8), dimension(0:n-2)   :: poli_2
 
     select case(n)
     case(0)
@@ -19,11 +21,13 @@ module legendre_mod
       call coef_legendre(poli_1, n-1)
       call coef_legendre(poli_2, n-2)
 
-      poli_1(n) = 0d0
-      poli_2(1) = 0d0
-      poli_2(2) = 0d0
+      M(0) = (2d0*n-1d0) / n*poli_1(0)
+      m(1)=(2d0*n-1d0)  /  n*poli_2(1)
 
-      M = (2d0 * n - 1d0) / n * poli_1 -  (n - 1d0) / n * poli_2
+      do i = 2, n -1
+         M(i) = (2d0 * n-1d0) / n * poli_1(i) - (n - 1d0) / n * poli_2(i-2)
+      end do
+      M(n) = -(n - 1d0) / n * poli_2(n-2)
 
     end select
 
