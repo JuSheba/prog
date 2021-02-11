@@ -4,15 +4,17 @@ contains
 !_______________________________________________________________________
 ! 1.GAUSS ELIMINATION
 !_______________________________________________________________________
-subroutine Gauss(n,eps,C,res)
+subroutine Gauss(n,C,res)
 
   integer(8)  :: n, i, j
   real(8), dimension(:,:) :: C
   real(8), dimension(:)   :: res
-  real(8) :: eps, s
+  real(8) :: s, eps
 
-  write(*,*) 'You chose Gauss elimination.'
-  write(*,*) 'Calculation solution vector..'
+!  write(*,*) 'You chose Gauss elimination.'
+!  write(*,*) 'Calculation solution vector..'
+
+  eps = 0.01
 
   do j = 1,n
     if(abs(C(j,j))<eps) then
@@ -43,8 +45,8 @@ subroutine GaussPivot(n,eps,C,res)
   integer(4), dimension(:), allocatable :: t, coords
   real(8) :: eps, s
 
-  write(*,*) 'You chose Gauss elimination with partial pivoting.'
-  write(*,*) 'Calculation solution vector..'
+  !write(*,*) 'You chose Gauss elimination with partial pivoting.'
+  !write(*,*) 'Calculation solution vector..'
 
   allocate(t(n), bar(n), coords(2))    ! сделаем массив из индексов и при каждой перестановке
   do i = 1, n       ! будем менять его, чтобы затем получить порядок переменных

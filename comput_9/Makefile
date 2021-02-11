@@ -15,7 +15,9 @@ rk_mod.o: param_func_mod.o
 %.o : %.f90
 	$(gf) -c $<
 exe: prog
-	./$<
+	./$< rk
+	./$< ae
+	./$< ai
 clean:
 	rm -f *.o prog *.mod
 .PHONY: clean, exe

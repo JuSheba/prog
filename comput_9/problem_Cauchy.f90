@@ -31,8 +31,8 @@ program problem_Cauchy
       end do
   close(11)
 
-  case('ea')
-    open(12,file='ea.dat')
+case('ae')
+    open(12,file='ae.dat')
         write(12,*) 0d0, data
         t = (e_n - 1d0) * h
         x_ea(-e_n+1,:) = data
@@ -54,23 +54,24 @@ program problem_Cauchy
         end do
     close(12)
 
-  case('ia')
-    open(13,file='ia.dat')
+  case('ai')
+    open(13,file='ai.dat')
         write(13,*) 0d0, data
-        t = (i_n - 2d0) * h
+        t = (i_n - 2d0) * h + h
         x_ia(-i_n+2,:) = data
         do j = -i_n+2, -1
             x_ia(j+1,:) = rk(x_ia(j,:), t+h*j)
-            write(13,*) t, x_ia(j+1,:)
+            write(13,*) t + j * h, x_ia(j+1,:)
         end do
 
         x = x_ia(0,:)
+
         do while (t < data_t+h)
             x_res = i_adams(x, t, x_ia)
             do j = -i_n+2, 0
               x_ia(j,:) = x_ia(j+1,:)
             end do
-            x_ia(1,:) = x_res
+            x_ia(0,:) = x_res
             write(13,*) t, x_res
             t = t + h
             x = x_res

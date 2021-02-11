@@ -35,7 +35,7 @@ subroutine solve(x, res, func)
   real(8), dimension(1:size(x)) :: buf
   real(8), dimension(1:size(x)) :: res
   real(8), dimension(1:size(x),1:size(x)) :: jacobi
-  real(8), dimension(1:size(x)+1,1:size(x)) :: M
+  real(8), dimension(1:size(x),1:size(x)+1) :: M
   real(8) :: eps
   integer(8) :: i, n
   interface
@@ -45,18 +45,17 @@ subroutine solve(x, res, func)
     end function func
   end interface
     n = size(x)
-    eps = epsilon(1d0)
-    !allocate(buf)
+    eps = sqrt(epsilon(1d0))
 
     do i = 1, n
         buf = x
         buf(i) = x(i) + eps
-        jacobi(i,1:n) = (func(buf) - func(x)) / eps
+        jacobi(1:n,i) = (func(buf) - func(x)) / eps
     end do
 
-    M(n+1,1:n) = -func(x)
+    M(1:n,n+1) = -func(x)
     M(1:n,1:n) = jacobi(1:n,1:n)
-    call Gauss(n, eps, M, res)
+    call Gauss(n, M, res)
     res = res + x
 end subroutine solve
 
