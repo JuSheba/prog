@@ -37,7 +37,7 @@ module methods_adams_mod
       p = p + B(n,-i) * func(t0 + (h/(n-1))*i, x(i,:))
     end do
 
-    call newton(x0, 10000, i_adams, fix_func)
+    call newton(x0, 50, i_adams, fix_func)
 
   contains
 

@@ -55,6 +55,7 @@ module stiff_DE_mod
     real(8) :: t, t_0, t_k, h
     real(8), dimension(:)   :: x0
     real(8), dimension(1:size(X0)) :: PC_Method, res, x
+    real(8), dimension(:,:), allocatable :: x_ea
     integer :: i, j
     interface
       function func(t, x)
@@ -66,14 +67,25 @@ module stiff_DE_mod
 !    !_______________________________________________________________________
     t = t_0
     PC_Method = x0
+    allocate(x_ea(-e_n+1:0, 1:size(x0)))
 
     open(22, file = 'precor.dat')
-      do while (t < t_k)
-        res = e_adams(PC_Method, t, x)
-        PC_Method = i_adams(res, t, x)
-        t = t + h
-        write(22,*) t, PC_Method
+      write(22,*) 0d0, x0
+      t = (e_n - 1d0) * h
+      x_ea(-e_n+1,:) = x0
+
+      do j = -e_n+1, -1
+        x_ea(j+1,:) = rk(x_ea(j,:), t+h*j)
+        write(22,*) t, x_ea(j+1,:)
       end do
+
+        do while (t < t_k)
+          res = e_adams(x, t, x_ea)
+          PC_Method = i_adams(res, t, x)
+          do j = -e_n+1, -1
+            x_ea(j,:) = x_ea(j+1,:)
+          end do
+        end do
     close(22)
   end function PC_Method
 
