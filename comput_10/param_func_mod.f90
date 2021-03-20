@@ -1,6 +1,6 @@
 module param_func_mod
   implicit none
-  real(8), parameter :: t_0 = 0d0, t_k = 1d2, h = 3e-3
+  real(8), parameter :: t_0 = 0d0, t_k = 1d2, h = 3d-3
   integer, parameter :: e_n = 3, i_n = 3
   real(8), dimension(1:2), parameter :: X0 = (/ -3d-1, 0d-1 /)
 

@@ -76,16 +76,20 @@ module stiff_DE_mod
 
       do j = -e_n+1, -1
         x_ea(j+1,:) = rk(x_ea(j,:), t+h*j)
-        write(22,*) t, x_ea(j+1,:)
+        write(22,*) t + h * (j + 1), x_ea(j+1,:)
       end do
 
-        do while (t < t_k)
-          res = e_adams(x, t, x_ea)
-          PC_Method = i_adams(res, t, x)
-          do j = -e_n+1, -1
-            x_ea(j,:) = x_ea(j+1,:)
-          end do
+      t = (e_n - 1) * h
+      do while (t < t_k)
+        t = t + h
+        res = e_adams(x_ea(0,:), t, x_ea)
+        PC_Method = i_adams(res, t, x_ea(-e_n+2:0,:))
+        do j = -e_n+1, -1
+          x_ea(j,:) = x_ea(j+1,:)
         end do
+        x_ea(0,:) = res
+        write(22,*) t, PC_Method
+      end do
     close(22)
   end function PC_Method
 
