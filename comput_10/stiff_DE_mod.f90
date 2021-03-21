@@ -87,7 +87,7 @@ module stiff_DE_mod
         do j = -e_n+1, -1
           x_ea(j,:) = x_ea(j+1,:)
         end do
-        x_ea(0,:) = res
+        x_ea(0,:) = PC_Method
         write(22,*) t, PC_Method
       end do
     close(22)

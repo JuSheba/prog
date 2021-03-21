@@ -8,7 +8,7 @@ contains
     function func(t, x)
       implicit none
         real(8) :: t
-        real(8), parameter :: k = 0.28d0
+        real(8), parameter :: k = 5d0
         real(8), dimension(:) :: x
         real(8), dimension(1:size(x)) :: func
           func(1) = x(2)
