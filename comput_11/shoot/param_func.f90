@@ -19,7 +19,7 @@ contains
     real(8), dimension(size(x)) :: func
     real(8) :: t
       func(1) = x(2)
-      func(2) = x(1)**2
+      func(2) = -2*t*(x(2))**2
   end function func
 
 end module param_func
