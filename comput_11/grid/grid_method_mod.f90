@@ -41,7 +41,7 @@ contains
       open(22, file = 'grid.dat')
       write(22,*) a, x_0
         do i = 1, num_int - 1
-          write(22,*) time(i), x_res(n*(i-1)+1:n*i), solution(i)
+          write(22,*) time(i), x_res(n*(i-1)+1:n*i)!, solution(i)
         end do
       write(22,*) b, x_k
       close(22)

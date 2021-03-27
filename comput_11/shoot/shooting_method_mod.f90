@@ -1,7 +1,7 @@
 module shooting_method_mod
   use rk_mod
   use newton_mod
-  use param_shoot
+  use param_func
   implicit none
 
 contains
