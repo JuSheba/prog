@@ -9,7 +9,7 @@ module param_func
 
   real(8), parameter :: a = 1d0, b = 2d0
   integer, parameter :: num_int = 20
-  real(8), parameter, dimension(1:1) :: alpha = (/0.7d0/), beta = (/0.5d0/)
+  real(8), parameter, dimension(1:1) :: alpha = (/0.0d0/), beta = (/0.5d0/)
 
 contains
 
