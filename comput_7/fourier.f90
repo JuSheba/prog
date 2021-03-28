@@ -83,7 +83,7 @@ program DFT
 
   open(33, file='abs.dat')
     do i = 1, N
-      write(33,*) abs(x(i))
+      write(33,*) abs(y(i)) !sqrt(real(y(i))**2  + imag(y(i))**2)
     end do
   close(33)
 !________________________________________________________________________________________
