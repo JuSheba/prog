@@ -22,7 +22,7 @@ contains
     real(8) :: t_0, t_k, h1, a, b, shooting, t
     character(len=*) :: key_word
 
-    select case(key)
+    select case(key_word)
     case('left')
       n = size(alpha)
       h1 = (b - a) / num_int
@@ -33,7 +33,7 @@ contains
       h1 = - (b - a) / num_int
       x_0 = beta; x_k = alpha
       t_0 = b;    t_k = a
-
+    end select
 
     zero = 0d0
     elem(1:n) = 0d0
