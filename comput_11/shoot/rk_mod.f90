@@ -1,5 +1,5 @@
 module rk_mod
-use param_shoot
+use param_func
 contains
 
   function rk(x0, t, h)
